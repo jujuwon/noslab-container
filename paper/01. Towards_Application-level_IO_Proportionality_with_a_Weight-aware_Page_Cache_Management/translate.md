@@ -227,7 +227,7 @@ Docker 는 OS 레벨 가상화라고 불리는 컨테이너 기술을 사용하�
 
 본 논문에서 I/O 비례성은 I/O 가중치에 따라 비례적으로 할당되는 어플리케이션의 대역폭 비율을 나타낸다. 
 
-![Screenshot from 2022-01-06 17-45-27.png](Towards%20Application-level%20I%20O%20Proportionality%20with%20a559f4ae99cd4e5189c24d3af5495f02/Screenshot_from_2022-01-06_17-45-27.png)
+![Screenshot from 2022-01-06 17-45-27.png](./images/Screenshot_from_2022-01-06_17-45-27.png)
 
 예를 들어, 그림 1에 표시된 것처럼 시스템 관리자가 I/O 가중치가 100, 400 및 500인 3개의 리소스 그룹을 생성한다고 가정하자. 그 후, 시스템에서 사용할 수 있는 총 I/O 리소스 양이 1.0인 경우 I/O 대역폭 비율이 0.1 : 0.4 : 0.5 가 되어야 한다.
 
@@ -258,7 +258,7 @@ Docker 는 OS 레벨 가상화라고 불리는 컨테이너 기술을 사용하�
 
 *qspinlock* 메커니즘의 개요는 그림 2에 나타나 있다. 
 
-![Screenshot from 2022-01-06 18-41-43.png](Towards%20Application-level%20I%20O%20Proportionality%20with%20a559f4ae99cd4e5189c24d3af5495f02/Screenshot_from_2022-01-06_18-41-43.png)
+![Screenshot from 2022-01-06 18-41-43.png](./images/Screenshot_from_2022-01-06_18-41-43.png)
 
 그림 2에 설명된 것처럼 *qspinlock* 메커니즘은 하나의 *qspinlock* 구조체와 CPU 당 여러 개의 qnode 로 구성되며, 각각은 lock 대기 queue 의 인스턴스이다.
 
@@ -282,7 +282,7 @@ locking 메커니즘에서, 페이지 할당을 위해 기존의 페이지 캐�
 
 여기서 lock 경합은 프로세스가 다른 프로세스가 이미 보유하고 있는 lock 을 획득하려고 시도하는 경우를 나타낸다.
 
-![Screenshot from 2022-01-06 18-54-54.png](Towards%20Application-level%20I%20O%20Proportionality%20with%20a559f4ae99cd4e5189c24d3af5495f02/Screenshot_from_2022-01-06_18-54-54.png)
+![Screenshot from 2022-01-06 18-54-54.png](./images/Screenshot_from_2022-01-06_18-54-54.png)
 
 그림 3에서 볼 수 있듯이, lock 경합 횟수는 실행 중인 컨테이너 수와 함께 증가하는데, 이는 주로 여러 컨테이너의 페이지 할당 요청 경합이 높기 때문이다.
 
@@ -300,7 +300,7 @@ locking 메커니즘에서, 페이지 할당을 위해 기존의 페이지 캐�
 
 실험 설정은 섹션 4의 표 1에 설명되어 있다.
 
-![Screenshot from 2022-01-06 19-09-22.png](Towards%20Application-level%20I%20O%20Proportionality%20with%20a559f4ae99cd4e5189c24d3af5495f02/Screenshot_from_2022-01-06_19-09-22.png)
+![Screenshot from 2022-01-06 19-09-22.png](./images/Screenshot_from_2022-01-06_19-09-22.png)
 
 그림 4는 두 가지 다른 I/O 유형에 대한 I/O 대역폭과 정규화된 (가중치 100의 컨테이너 대역폭에 대한) I/O 대역폭을 보여준다. I/O 비례성을 계산할 때 각 컨테이너의 대역폭에 대한 상대 비율만 필요하므로, 이 논문에서 I/O 비례성에 대한 모든 결과가 정규화된다는 점에 유의하자.
 
@@ -358,7 +358,7 @@ locking 메커니즘에서, 페이지 할당을 위해 기존의 페이지 캐�
 
  페이지 캐시 회수로 인한 I/O 비례성 왜곡을 보여주기 위해 FIO 의 Re-read 워크로드로 실험을 수행하였다. 그림 4의 이전 동기 실험처럼, 우리는 서로 다른 가중치 (즉, 100, 200, 400, 800) 를 가진 네 개의 컨테이너에 이 작업량을 실행했다. 각 컨테이너는 3GB 테스트 파일을 하나씩 생성하여 파일의 모든 페이지를 페이지 캐시로 캐싱한다. 그런 다음 호스트는 4GB 더미 파일을 작성하여 과도한 페이지 회수를 트리거한다. 마지막으로 각 컨테이너에서 1GB Re-read 작업을 실행하고 그림 5와 같이 I/O 대역폭을 측정하였다.
 
-![Screenshot from 2022-01-06 19-29-10.png](Towards%20Application-level%20I%20O%20Proportionality%20with%20a559f4ae99cd4e5189c24d3af5495f02/Screenshot_from_2022-01-06_19-29-10.png)
+![Screenshot from 2022-01-06 19-29-10.png](./images/Screenshot_from_2022-01-06_19-29-10.png)
 
  실험은 Direct I/O 와 버퍼링된 I/O 의 두 가지 다른 유형의 I/O 로도 수행된다. 그림 5와 같이 버퍼링된 I/O 는 Direct I/O 에 비해 I/O 비례성이 떨어진다. 많은 수의 재읽기 요청이 버퍼링된 I/O 의 경우 페이지 캐시에서 처리된다. 불행히도 기존의 페이지 캐시 관리가 호스트에서 dummy write 후 페이지를 제거할 때 페이지 회수동안 I/O 가중치를 고려하지 않는다. 따라서 일부 페이지는 가중치가 높은 컨테이너에서 사용하더라도 가중치가 낮은 컨테이너에서 사용하는 페이지보다 먼저 제거되므로 I/O 비례성이 저하된다.
 
@@ -390,9 +390,9 @@ Justitia 는 두 가지 주요 정책으로 구성된다.
 
 페이지 할당 중 I/O 비례성을 높이기 위한 우리의 솔루션은 I/O 가중치를 기준으로 lock 대기 queue 를 재정렬하는 것이다.
 
-![Screenshot from 2022-01-06 19-42-47.png](Towards%20Application-level%20I%20O%20Proportionality%20with%20a559f4ae99cd4e5189c24d3af5495f02/Screenshot_from_2022-01-06_19-42-47.png)
+![Screenshot from 2022-01-06 19-42-47.png](./images/Screenshot_from_2022-01-06_19-42-47.png)
 
-![Screenshot from 2022-01-06 19-47-52.png](Towards%20Application-level%20I%20O%20Proportionality%20with%20a559f4ae99cd4e5189c24d3af5495f02/Screenshot_from_2022-01-06_19-47-52.png)
+![Screenshot from 2022-01-06 19-47-52.png](./images/Screenshot_from_2022-01-06_19-47-52.png)
 
 가중치 인식 qspinlock 의 개요는 그림 6에 나와 있으며, 자세한 pseudo code 는 알고리즘 1에 나와있다.
 
@@ -469,7 +469,7 @@ cgroups 에서 수동으로 설정할 수 있는 최대 I/O 가중치는 1000이
 
 먼저 Justitia 는 해당 I/O 가중치를 사용하여 각 어플리케이션의 I/O 비율을 계산하고 이 값을 비율 변수에 저장한다.
 
-![Screenshot from 2022-01-07 10-15-41.png](Towards%20Application-level%20I%20O%20Proportionality%20with%20a559f4ae99cd4e5189c24d3af5495f02/Screenshot_from_2022-01-07_10-15-41.png)
+![Screenshot from 2022-01-07 10-15-41.png](./images/Screenshot_from_2022-01-07_10-15-41.png)
 
 예를 들어 그림 7에서 시스템은 I/O 가중치가 각각 100, 200, 400, 800 인 4개의 cgroup 노드에서 4개의 어플리케이션을 실행한다.
 
@@ -557,7 +557,7 @@ Justitia 는 페이지 캐시에 가중치가 더 높은 어플리케이션의 �
 
 ### A. Evaluation Setup and Test Settings
 
-![Screenshot from 2022-01-07 11-08-47.png](Towards%20Application-level%20I%20O%20Proportionality%20with%20a559f4ae99cd4e5189c24d3af5495f02/Screenshot_from_2022-01-07_11-08-47.png)
+![Screenshot from 2022-01-07 11-08-47.png](./images/Screenshot_from_2022-01-07_11-08-47.png)
 
 Justitia 를 구현하기 위해 리눅스 커널 버전 4.19.16 의 페이지 할당 및 페이지 캐시 관리를 위한 lock 메커니즘을 수행했다.
 
@@ -584,7 +584,7 @@ Re-read 실험에서 서로 다른 I/O 가중치를 가진 4개의 컨테이너�
 
 I/O 비례성을 정량적으로 측정하기 위해, 우리는 다음과 같이 소개된 비례 변동 (PV) 이라는 새로운 지표를 채택한다.
 
-![Screenshot from 2022-01-07 11-38-04.png](Towards%20Application-level%20I%20O%20Proportionality%20with%20a559f4ae99cd4e5189c24d3af5495f02/Screenshot_from_2022-01-07_11-38-04.png)
+![Screenshot from 2022-01-07 11-38-04.png](./images/Screenshot_from_2022-01-07_11-38-04.png)
 
 > proportionality variation (PV) : 비례 변동
 > 
@@ -595,7 +595,7 @@ I/O 비례성을 정량적으로 측정하기 위해, 우리는 다음과 같이
 
 ### B. Page Allocation
 
-![Screenshot from 2022-01-07 11-40-12.png](Towards%20Application-level%20I%20O%20Proportionality%20with%20a559f4ae99cd4e5189c24d3af5495f02/Screenshot_from_2022-01-07_11-40-12.png)
+![Screenshot from 2022-01-07 11-40-12.png](./images/Screenshot_from_2022-01-07_11-40-12.png)
 
 그림 8a 는 쓰기 집약적인 파일 서버 워크로드에서 8개 컨테이너의 표준화된 I/O 비례성을 보여준다.
 
@@ -631,7 +631,7 @@ Justitia 의 가중치 인식 페이지 회수를 평가하기 위해 [섹션 2.
 
 우리의 실험 결과에서 모든 성능 값은 가장 낮은 가중치의 결과로 정규화된다.
 
-![Screenshot from 2022-01-07 11-48-57.png](Towards%20Application-level%20I%20O%20Proportionality%20with%20a559f4ae99cd4e5189c24d3af5495f02/Screenshot_from_2022-01-07_11-48-57.png)
+![Screenshot from 2022-01-07 11-48-57.png](./images/Screenshot_from_2022-01-07_11-48-57.png)
 
 그림 9a 에서 볼 수 있듯이, 기존의 페이지 회수 방식은 I/O 가중치를 고려하지 않기 때문에 I/O 비례성이 낮다.
 
@@ -651,7 +651,7 @@ Justitia 에 의해 유발된 오버헤드를 조사하기 위해 서로 다른 
 
 이 결과는 Justitia 가 비활성 목록에서만 I/O 가중치를 반영한다는 사실에서 비롯된다.
 
-![Screenshot from 2022-01-07 11-54-11.png](Towards%20Application-level%20I%20O%20Proportionality%20with%20a559f4ae99cd4e5189c24d3af5495f02/Screenshot_from_2022-01-07_11-54-11.png)
+![Screenshot from 2022-01-07 11-54-11.png](./images/Screenshot_from_2022-01-07_11-54-11.png)
 
 그림 10b 는 파일 서버의 쓰기 대역폭과 재읽기 워크로드의 읽기 대역폭을 보여준다.
 
@@ -684,7 +684,7 @@ cgroups 의 메모리 서브 시스템은 각 어플리케이션의 최대 메�
 
  이를 확인하기 위해 파일 서버와 재읽기 벤치마크를 모두 실행하고 메모리 cgroup 의 실험 결과를 우리 계획의 실험 결과와 비교했다.
 
-![Screenshot from 2022-01-07 16-50-42.png](Towards%20Application-level%20I%20O%20Proportionality%20with%20a559f4ae99cd4e5189c24d3af5495f02/Screenshot_from_2022-01-07_16-50-42.png)
+![Screenshot from 2022-01-07 16-50-42.png](./images/Screenshot_from_2022-01-07_16-50-42.png)
 
 여기서 메모리 cgroup 의 경우 Justitia 의 I/O 가중치와 동일한 메모리 한계 비율 (1 : 2 : 4 : 8)을 설정한다.
 
@@ -704,7 +704,7 @@ Justitia 와 메모리 cgroup 의 PV 는 각각 0.14 와 1.67 이다.
 
 극단적인 경우 우리의 계획이 견고함을 확인하기 위해, 우리는 8개의 컨테이너로 파일 서버 실험을 수행했다.
 
-![Screenshot from 2022-01-07 16-51-07.png](Towards%20Application-level%20I%20O%20Proportionality%20with%20a559f4ae99cd4e5189c24d3af5495f02/Screenshot_from_2022-01-07_16-51-07.png)
+![Screenshot from 2022-01-07 16-51-07.png](./images/Screenshot_from_2022-01-07_16-51-07.png)
 
 여기서 한 컨테이너 (C1) 의 I/O 가중치는 100이고 다른 컨테이너 (C2 - C8) 는 1000이다.
 
