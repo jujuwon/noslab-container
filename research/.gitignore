@@ -1,2 +1,3 @@
 # for python venv
 jenv
+__pycache__
